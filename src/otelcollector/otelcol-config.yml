@@ -13,6 +13,11 @@ exporters:
     endpoint: "jaeger:4317"
     tls:
       insecure: true
+  otlp/2:
+    endpoint: data-prepper:21890
+    tls:
+      insecure: true
+      insecure_skip_verify: true
   logging:
   prometheus:
     endpoint: "otelcol:9464"
@@ -35,7 +40,7 @@ service:
     traces:
       receivers: [otlp]
       processors: [spanmetrics, batch]
-      exporters: [logging, otlp]
+      exporters: [logging, otlp, otlp/2]
     metrics:
       receivers: [otlp]
       processors: [transform, batch]
